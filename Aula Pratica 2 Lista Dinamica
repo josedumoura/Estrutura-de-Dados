@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define TAML 4
+
+typedef struct sLISTA{
+		char valor[TAML];
+		int n;
+	}LISTA;
+	
+void lista_inicializar(LISTA* L){
+	L->valor[0] = 'j';
+	L->valor[0] = 'o';
+	L->valor[0] = 's';
+	L->valor[0] = 'a';
+}
+
+int lista_cheia(LISTA *L){
+	if(L->n+1 == TAML){
+		return 1;
+	}else{
+		return 0;
+	}
+}
+
+int lista_vazia(LISTA* L){
+	if(L->n == -1){
+		return 1;
+	}else{
+		return 0;
+	}
+}
+
+int lista_inserirfim(LISTA* L, char elem){
+	if(lista_cheia(L)){
+		printf("Erro - lista cheia");
+		return 1;
+	}
+	L->valor[L->n+1] = elem;
+	L->n = L->n+1;
+	
+	return 0;
+}
+
+int lista_modificar(LISTA* L, int k, char elem){
+	if(k < 0 || k > L->n){
+		printf("Erro - elemento fora dos limites");
+		return 1;
+	}
+	
+	L->valor[k] = elem;
+	return 0;
+}
+
+int lista_remover(LISTA *L, int k){
+	if(lista_vazia(L)){
+		printf("Erro - Lista Vazia");
+		return 1;
+	}
+	if(k < 0 || k > L->n){
+		printf("Erro - elemento fora dos limites");
+		return 1;
+	}
+}
+
+
+int lista_tamanho(LISTA* L){
+	return L->n+1;
+}
+
+int exibe_lista(LISTA* L){
+	int i;
+	for(i=0; i<=L->n; i++){
+		printf("%c", L->valor[i]);
+	}
+}
+
+	
+int main(){
+	LISTA L;
+		
+	lista_inicializar(&L);
+	
+	lista_inserirfim(&L, 'e');
+	
+	exibe_lista(&L);
+}
