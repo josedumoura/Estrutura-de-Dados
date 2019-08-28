@@ -1,0 +1,183 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct sCELULA{
+	int info;
+	struct sCELULA* esq;
+	struct sCELULA* dir;
+}CELULA;
+
+//FUNCOES BASICAS
+void init(CELULA **lista){
+	*lista = NULL;
+}
+
+CELULA* getnode(){
+	return (CELULA*) malloc (sizeof(CELULA));
+}
+
+void freenode(CELULA* q){
+	free(q);
+}
+
+int empty(CELULA *lista){
+	if(lista == NULL){
+		return 1;
+	}
+	return 0;
+}
+
+CELULA* pesquisa(CELULA *lista, int x){
+	CELULA* q;
+	
+	if(!empty(lista)){
+		q = lista;
+		while(q != NULL){
+			if(q->info == x){
+				return q;
+			}
+			q = q->dir;
+		}
+	}
+	return NULL;
+}
+
+//INSERINDO
+void insere_inicio(CELULA** lista, int x){
+	CELULA *q;
+	
+	q = getnode();
+	if(q != NULL){
+		q->info = x;
+		q->esq = NULL;
+		q->dir = *lista;
+		
+		if(!empty(*lista)){
+			(*lista)->esq = q;
+		}
+		*lista = q;
+	}else{
+		printf("\n ERRO: falha na alocacao de memoria! 0");
+	}
+}
+
+void insere_fim(CELULA** lista, int x){
+	CELULA* q;
+	CELULA* aux;
+	
+	q = getnode();
+	if(q != NULL){
+		q->info = x;
+		q->esq = NULL;
+		q->dir = NULL;
+		
+		if(empty(*lista)){
+			*lista = q;
+		}else{
+			aux = *lista;
+			while(aux->dir != NULL){
+				aux = aux->dir;
+			}
+			aux->dir = q;
+			q->esq = aux;
+		}
+	}else{
+		printf("\n Erro: falha na alocacao de memoria! 1");
+	}
+}
+
+//REMOVENDO
+void remove_inicio(CELULA** lista){
+	CELULA *q;
+	
+	q = *lista;
+	
+	if(!empty(*lista)){
+		
+		*lista = q->dir;
+		if((*lista) != NULL){
+			(*lista)->esq = NULL;
+		}
+		freenode(q);
+	}else{
+		printf("\n Erro: lista vazia.");
+	}
+}
+
+void remove_valor(CELULA** lista, int x){
+	CELULA* q;
+	
+	if((q = pesquisa(*lista, x)) != NULL){
+		if(*lista == q){					//n� no inicio da lista
+			remove_inicio(lista);
+		}else{
+			(q->esq)->dir = q->dir;
+			if(q->dir != NULL){
+				(q->dir)->esq = q->esq;
+			}
+			freenode(q);
+		}
+	}
+}
+
+//EXIBIR
+void exibe_lista(CELULA *lista){
+	CELULA* aux;
+	
+	aux = lista;
+	while(aux != NULL){
+		printf("%d  ", aux->info);
+		aux = aux->dir;
+	}
+	printf("\n");
+	
+}
+
+int main(){
+	CELULA* ptrlista;
+	
+	init(&ptrlista);
+
+	printf("Insere 1 no inicio: ");
+	insere_inicio(&ptrlista, 1);
+	exibe_lista(ptrlista);
+	
+	printf("\nInsere 3 no inicio: ");
+	insere_inicio(&ptrlista, 3);
+	exibe_lista(ptrlista);
+	
+	printf("\nInsere 2 no final: ");
+	insere_fim(&ptrlista, 2);
+	exibe_lista(ptrlista);
+	
+	printf("\nRemove inicio: ");
+	remove_inicio(&ptrlista);
+	exibe_lista(ptrlista);
+	
+	printf("\nRemove valor 2: ");
+	remove_valor(&ptrlista, 2);
+	exibe_lista(ptrlista);
+	
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
