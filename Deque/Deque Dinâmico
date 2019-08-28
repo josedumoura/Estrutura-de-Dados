@@ -1,0 +1,106 @@
+//deque gabriel
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct sCELULA{
+	int info;
+	struct sCELULA* next;
+}CELULA;
+
+typedef struct sDEQUE{
+	CELULA* fim;
+	CELULA* inicio;
+}DEQUE;
+
+void init(DEQUE* d){
+	d->fim = NULL;
+	d->inicio = NULL;
+}
+
+CELULA* getnode(){
+	return (CELULA*) malloc(sizeof(CELULA));
+}
+
+int empty(DEQUE* d){
+	if(d->inicio == NULL){
+		return 1;
+	}
+	return 0;
+}
+
+void insere_inicio(DEQUE* d, int x){
+	CELULA* q;
+	q = getnode();
+	
+	if(q!= NULL){
+		q->info = x;
+		q->next = NULL;
+		if(empty(d)){
+			d->inicio = q;
+			d->fim = q;
+		}else{
+			q->next= d->inicio;
+			d->inicio = q;
+		}
+	}
+}
+
+void remove_inicio(DEQUE* d){
+	CELULA* q;
+	
+	if(empty(d)){
+		printf("\n lista vazia \n");
+	}else{
+		printf("%d  ", (d->inicio)->info);
+		q = (d->inicio)->next;
+		free(d->inicio);
+		d->inicio = q;
+	}
+}
+
+void insere_fim(DEQUE* d, int x){
+	CELULA* q;
+	q = getnode();
+	
+	if(q != NULL){
+		q->info = x;
+		q->next = NULL;
+		if(empty(d)){
+			d->fim = q;
+			d->inicio = q;
+		}else{			
+			(d->fim)->next = q;
+			d->fim = q;
+		}
+	}
+}
+
+void remove_fim(DEQUE* d){
+	CELULA* q;
+	CELULA* aux;
+	
+	if(empty(d)){
+		printf("Lista vazia \n");
+	}else{
+		while(q->next != NULL){
+			aux = q;
+			q = q->next;
+		}
+		printf("%d ", q->info);
+		free(q);
+		aux->next = NULL;
+		d->fim = aux;
+	}
+}
+
+int main(){
+	DEQUE dec;
+	
+	init(&dec);
+	
+	insere_inicio(&dec, 7);
+	insere_inicio(&dec, 3);
+	insere_inicio(&dec, 6);
+	printf("Remove o inicio 6: ");
+	remove_inicio(&dec);
+
+}
