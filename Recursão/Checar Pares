@@ -1,0 +1,25 @@
+#include <stdio.h>
+
+int imprime(int x){
+	int n = x;
+	
+	if(n == 0){
+		printf("0");
+		return 0;
+	}else{
+		if(n % 2 == 0){
+			printf("%d  ", n);
+			return imprime(n-1);
+		}else{
+			return imprime(n-1);
+		}
+	}
+}
+
+int main(){
+	int a;
+	
+	printf("Digite um numero par checar seus pares: ");
+	scanf("%d", &a);
+	imprime(a);
+}
